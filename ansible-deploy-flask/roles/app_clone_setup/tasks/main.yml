@@ -1,0 +1,29 @@
+---
+
+- name: fail if directory exists
+  stat:
+    path: "{{ app_dir }}"
+  register: app_dir_exists
+  failed_when: app_dir_exists.stat.exists
+
+- name: create app directory
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+
+- name: clone Git repository
+  git:
+    repo: "{{ git_repo }}"
+    dest: "{{ app_src_dir }}"
+    version: "{{ git_branch }}"
+
+- name: create venv and install requirements
+  pip:
+    requirements: "{{ app_src_dir }}/requirements.txt"
+    virtualenv: "{{ app_venv_dir }}"
+    virtualenv_command: "python3 -m venv"
+
+- name: install extra requirements
+  pip:
+    name: gunicorn
+    virtualenv: "{{ app_venv_dir }}"

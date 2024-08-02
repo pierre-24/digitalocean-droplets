@@ -1,0 +1,10 @@
+---
+- name: Create a test site
+  hosts: all
+  roles:
+   - app_clone_setup
+   # extra setup should go there
+   - user_create_chown
+   - service_create_launch
+   - nginx_site_setup
+

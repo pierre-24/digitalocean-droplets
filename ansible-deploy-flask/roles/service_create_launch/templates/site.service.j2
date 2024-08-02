@@ -1,0 +1,15 @@
+[Unit]
+Description=Service for the gunicorn instances which serve {{ app_name }}
+After=network.target
+
+[Service]
+User={{ uid }}
+Group={{ gid }}
+WorkingDirectory={{ app_src_dir }}
+Environment="PATH={{ app_venv_dir }}/bin"
+ExecStart={{ app_venv_dir }}/bin/gunicorn --workers {{ gunicorn_nworkers }} --bind unix:{{ app_name }}.sock -m 007 '{{ app_package }}:{{ app_callable }}'
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,25 @@
+---
+
+- name: create service file
+  become: yes
+  template:
+    src: templates/site.service.j2
+    dest: /etc/systemd/system/{{ gunicorn_service_name }}.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: enable and start service
+  become: yes
+  systemd:
+    name: '{{ gunicorn_service_name }}'
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+
+- name: check socket
+  become: yes
+  become_user: "{{ uid }}"
+  command: curl -i -X GET --unix-socket {{ app_src_dir }}/{{ app_name }}.sock  "http://localhost"
+  register: result_curl
+  failed_when: '"200" not in result_curl.stdout'

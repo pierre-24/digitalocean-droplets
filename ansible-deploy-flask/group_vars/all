@@ -1,0 +1,22 @@
+base_dir: /opt/apps
+app_dir: "{{ base_dir }}/{{ app_name }}"
+# git
+github_repo: Kwpolska/flask-demo-app.git
+git_repo: https://github.com/{{ github_repo }}
+git_branch: master
+# app
+app_name: test
+app_src_dir: "{{ app_dir }}/src"
+app_venv_dir: "{{ app_dir }}/venv"
+app_logs_dir: "{{ app_dir }}/logs"
+app_package: flaskapp
+app_callable: app
+# user
+uid: "{{ app_name }}"
+gid: www-data
+# gunicorn
+gunicorn_nworkers: 2
+gunicorn_service_name: gunicorn.{{ app_name }}
+# website
+website_address: test.pierrebeaujean.net
+certbot_account_email: pierreb24@gmail.com

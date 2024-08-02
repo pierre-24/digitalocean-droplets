@@ -1,11 +1,15 @@
 ---
 - name: set NGINX config
   copy:
-    src: files/nginx.conf
-    dest: /etc/nginx/nginx.conf
+    src: files/{{ item }}
+    dest: /etc/nginx/{{ item }}
     group: 'root'
     owner: 'root'
     mode: '0644'
+  loop:
+    - nginx.conf
+    - snippets/general.conf
+    - snippets/security.conf
   notify:
     - test nginx and restart
 

@@ -6,4 +6,6 @@ I used <https://docs.digitalocean.com/products/droplets/getting-started/recommen
 
 I set up a firewall at <https://cloud.digitalocean.com/networking/firewalls>, with extra HTTP and HTTPS inbound rules.
 
-What about <https://do.co/nginxconfig>?
+# Ansible playbooks
+
++ [flask app playbooks](../ansible-deploy-flask/).
