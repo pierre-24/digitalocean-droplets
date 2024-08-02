@@ -1,0 +1,25 @@
+---
+- name: set NGINX config
+  copy:
+    src: files/nginx.conf
+    dest: /etc/nginx/nginx.conf
+    group: 'root'
+    owner: 'root'
+    mode: '0644'
+  notify:
+    - test nginx and restart
+
+- name: create directory for certbot
+  file:
+    path: /etc/letsencrypt/renewal-hooks/post/
+    group: 'root'
+    owner: 'root'
+    state: directory
+
+- name: configure certbot to reload nginx when successful
+  copy:
+    src: files/nginx-reload.sh
+    dest: /etc/letsencrypt/renewal-hooks/post/nginx-reload.sh
+    group: 'root'
+    owner: 'root'
+    mode: '0711'
