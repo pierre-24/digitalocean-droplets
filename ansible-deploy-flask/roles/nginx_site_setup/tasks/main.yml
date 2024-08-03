@@ -16,6 +16,8 @@
     owner: root
     group: root
     mode: 0644
+  when: not website_use_ssl or certbot_get_certificate
+  register: nginx_conf_has_changed
     
 - name: enable website
   become: yes
@@ -29,15 +31,18 @@
   service:
     name: 'nginx'
     state: 'restarted'
+  when: nginx_conf_has_changed.changed
 
 - name: check address is working
   command: curl -IL "http://{{ website_address }}"
   register: result_curl
   failed_when: '"200" not in result_curl.stdout'
+  when: not website_use_ssl or certbot_get_certificate
 
 - name: request certificate through certbot
   become: yes
   command: certbot certonly --nginx -d {{ website_address }} --email {{ certbot_account_email }} -n --agree-tos  --force-renewal
+  when: certbot_get_certificate and website_use_ssl
 
 - name: create proper site conf file (with SSL)
   become: yes
@@ -47,14 +52,18 @@
     owner: root
     group: root
     mode: 0644
+  when: website_use_ssl
+  register: nginx_conf_has_changed
 
 - name: restart nginx
   become: yes
   service:
     name: 'nginx'
     state: 'restarted'
+  when: website_use_ssl and nginx_conf_has_changed.changed
 
 - name: check HTTPS is working
   command: curl -IL "https://{{ website_address }}"
   register: result_curl
   failed_when: '"200" not in result_curl.stdout'
+  when: website_use_ssl

@@ -1,0 +1,12 @@
+---
+
+- name: check if app directory exists
+  stat:
+    path: "{{ app_dir }}"
+  register: app_dir_exists
+
+- include_tasks: clone_setup.yml
+  when: not app_dir_exists.stat.exists
+
+- include_tasks: update.yml
+  when: app_dir_exists.stat.exists

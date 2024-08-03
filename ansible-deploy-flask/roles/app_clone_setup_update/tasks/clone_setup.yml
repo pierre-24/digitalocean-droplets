@@ -1,10 +1,4 @@
----
 
-- name: fail if directory exists
-  stat:
-    path: "{{ app_dir }}"
-  register: app_dir_exists
-  failed_when: app_dir_exists.stat.exists
 
 - name: create app directory
   file:
@@ -16,6 +10,7 @@
     repo: "{{ git_repo }}"
     dest: "{{ app_src_dir }}"
     version: "{{ git_branch }}"
+    depth: 1
 
 - name: create venv and install requirements
   pip:
@@ -27,3 +22,22 @@
   pip:
     name: gunicorn
     virtualenv: "{{ app_venv_dir }}"
+
+- name: Add user
+  become: yes
+  user:
+    name: "{{ uid }}"
+    group: "{{ gid }}"
+    comment: app user for {{ app_name }}
+    shell: /bin/bash
+    password: '!'
+    home: "{{ app_dir }}"
+
+- name: Set permissions to app directory
+  become: yes
+  file:
+    path: "{{ app_dir }}"
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+    state: directory
+    recurse: yes

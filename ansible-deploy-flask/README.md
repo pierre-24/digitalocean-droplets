@@ -20,8 +20,13 @@ An example is provided [here](deploy_test.yml):
 ansible-playbook -i inventory deploy_test.yml -K
 ```
 
-Variables are defined [here](group_vars/all) and can be changed to deploy another app.
+Variables are defined [here](group_vars/all.yml) and can be changed to deploy another app.
 
 ## TODO
 
 - [ ] logrotate?
+- [ ] static?
+- [ ] [goaccess](https://goaccess.io/)? (with `.htaccess`, maybe? :p )
+- [ ] skip certificate?
+- [x] update? 
+- [ ] more proxy params?

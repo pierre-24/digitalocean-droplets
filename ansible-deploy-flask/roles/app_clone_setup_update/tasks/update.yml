@@ -1,0 +1,21 @@
+- name: pull latest git update
+  become: yes
+  become_user: "{{ uid }}"
+  command: git pull
+  args:
+    chdir: "{{ app_src_dir }}"
+
+- name: checkout git
+  become: yes
+  become_user: "{{ uid }}"
+  command: git checkout {{ git_branch }}
+  args:
+    chdir: "{{ app_src_dir }}"
+
+
+- name: update requirements
+  become: yes
+  become_user: "{{ uid }}"
+  pip:
+    requirements: "{{ app_src_dir }}/requirements.txt"
+    virtualenv: "{{ app_venv_dir }}"
