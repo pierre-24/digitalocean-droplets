@@ -21,5 +21,7 @@ gunicorn_service_name: gunicorn.{{ app_name }}
 # website
 website_address: test.pierrebeaujean.net
 website_use_ssl: yes
+website_has_static: yes
+website_static_path: "{{ app_src_dir }}/static"
 certbot_get_certificate: no
 certbot_account_email: pierreb24@gmail.com

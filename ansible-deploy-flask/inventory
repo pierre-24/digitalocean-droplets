@@ -1,2 +1,2 @@
 [main]
-main ansible_user=pierre ansible_host=digi.pbj
+ubuntu-pbj.net ansible_user=pierre ansible_host=digi.pbj

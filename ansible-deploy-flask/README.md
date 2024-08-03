@@ -25,8 +25,8 @@ Variables are defined [here](group_vars/all.yml) and can be changed to deploy an
 ## TODO
 
 - [ ] logrotate?
-- [ ] static?
+- [ ] static? → I cannot do it.
 - [ ] [goaccess](https://goaccess.io/)? (with `.htaccess`, maybe? :p )
-- [ ] skip certificate?
+- [x] skip certificate?
 - [x] update? 
-- [ ] more proxy params?
+- [x] more proxy params?

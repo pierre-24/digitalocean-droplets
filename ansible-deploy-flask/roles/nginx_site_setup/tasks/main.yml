@@ -47,7 +47,7 @@
 - name: create proper site conf file (with SSL)
   become: yes
   template:
-    src: templates/site.conf.j2
+    src: templates/site_ssl.conf.j2
     dest: /etc/nginx/sites-available/{{ website_address }}.conf
     owner: root
     group: root

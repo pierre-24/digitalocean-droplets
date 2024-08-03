@@ -10,6 +10,7 @@
     - nginx.conf
     - snippets/general.conf
     - snippets/security.conf
+    - snippets/proxy.conf
   notify:
     - test nginx and restart
 

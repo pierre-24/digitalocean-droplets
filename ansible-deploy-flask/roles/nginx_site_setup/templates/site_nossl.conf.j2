@@ -5,14 +5,8 @@ server {
     server_name {{ website_address }};
     
     location / {
-      proxy_pass http://unix:{{ app_src_dir }}/{{ app_name }}.sock;
-      
-      # used by WSGI to sort up things
-      proxy_set_header   Host                 $host;
-      proxy_set_header   X-Real-IP            $remote_addr;
-      proxy_set_header   X-Forwarded-For      $proxy_add_x_forwarded_for;
-      proxy_set_header   X-Forwarded-Proto    $scheme;
-
+        proxy_pass http://unix:{{ app_src_dir }}/{{ app_name }}.sock;
+        include snippets/proxy.conf;
     }
 
     # additional config
