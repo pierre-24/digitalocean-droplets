@@ -4,11 +4,11 @@ server {
     listen      [::]:80;
     server_name {{ website_address }};
 
-    root {{ website_webroot }};
-
     # logging
     access_log              {{ app_logs_dir }}/nginx-access.log combined buffer=512k flush=1m;
     error_log               {{ app_logs_dir }}/nginx-error.log warn;
+
+    root {{ app_webroot_dir }};
     
     location / {
         proxy_pass http://unix:{{ app_src_dir }}/{{ app_name }}.sock;
@@ -17,7 +17,7 @@ server {
 
     {% if website_has_static %}
         location /static {
-            alias {{ website_static_path }};
+            alias {{ app_webroot_dir }}/static;
         }
     {% endif %}
 
