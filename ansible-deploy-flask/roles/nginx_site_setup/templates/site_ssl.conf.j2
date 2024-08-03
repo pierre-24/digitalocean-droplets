@@ -12,8 +12,8 @@ server {
     include                 snippets/security.conf;
 
     # logging
-    access_log              {{ app_logs_dir }}/access.log combined buffer=512k flush=1m;
-    error_log               {{ app_logs_dir }}/error.log warn;
+    access_log              {{ app_logs_dir }}/nginx-access.log combined buffer=512k flush=1m;
+    error_log               {{ app_logs_dir }}/nginx-error.log warn;
 
     root {{ app_webroot_dir }};
 
@@ -27,6 +27,15 @@ server {
             alias {{ app_webroot_dir }}/static;
         }
     {% endif %}
+
+    location /goaccess/ws {
+        proxy_pass http://localhost:{{ goaccess_port }};
+        include snippets/proxy.conf;
+    }
+
+    location /goaccess {
+        alias {{ app_webroot_dir }}/goaccess;
+    }
 
     # additional config
     include snippets/general.conf;

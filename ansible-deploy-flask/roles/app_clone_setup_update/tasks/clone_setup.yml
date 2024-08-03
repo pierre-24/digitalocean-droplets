@@ -1,5 +1,4 @@
 
-
 - name: create app directory
   file:
     path: "{{ app_dir }}"
@@ -22,19 +21,6 @@
   pip:
     name: gunicorn
     virtualenv: "{{ app_venv_dir }}"
-
-- name: create webroot
-  file:
-    path: "{{ app_webroot_dir }}"
-    state: directory
-
-- name: link static in webroot
-  become: yes
-  file:
-    src: "{{ website_static_path }}"
-    dest: "{{ app_webroot_dir }}/static"
-    state: link
-  when: website_has_static
 
 - name: Add user
   become: yes

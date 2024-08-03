@@ -19,6 +19,9 @@ gid: www-data
 # gunicorn
 gunicorn_nworkers: 2
 gunicorn_service_name: gunicorn.{{ app_name }}
+# goaccess
+goaccess_service_name: goaccess.{{ app_name }}
+goaccess_port: 7200
 # website
 website_address: test.pierrebeaujean.net
 website_use_ssl: yes

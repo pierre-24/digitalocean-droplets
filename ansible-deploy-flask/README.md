@@ -1,5 +1,7 @@
 Ansible playbooks to deploy flask apps.
 
+Assume debian/ubuntu
+
 ## Setup
 
 Create an `inventory` file.
@@ -11,6 +13,8 @@ ansible-playbook -i inventory install_base.yml -K
 ```
 
 `-K` is used to request for BECOME password.
+
+You might want to [use the official `goaccess` repo](https://goaccess.io/download#official-repo) to get up to date version.
 
 ## Deploy an app
 

@@ -4,6 +4,6 @@
   roles:
    - app_clone_setup_update
    # extra setup should go there
-   - service_create_launch
+   - services_create_launch
    - nginx_site_setup
 

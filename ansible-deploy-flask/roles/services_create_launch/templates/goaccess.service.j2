@@ -1,0 +1,18 @@
+[Unit]
+Description=Service for the goaccess instances for {{ app_name }}
+After=network.target
+
+[Service]
+User={{ uid }}
+Group={{ gid }}
+ExecStart=/usr/bin/goaccess -f {{ app_logs_dir }}/nginx-access.log --log-format=COMBINED\
+          --real-time-html --ws-url=wss://{{ website_address }}:443/goaccess/ws \
+          -o {{ app_webroot_dir }}/goaccess/report.html \
+          --config-file=/etc/goaccess/goaccess.conf\
+          --origin=https://{{ website_address }}\
+          --port {{ goaccess_port }}
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target

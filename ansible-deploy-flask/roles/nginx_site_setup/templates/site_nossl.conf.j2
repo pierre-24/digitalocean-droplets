@@ -1,4 +1,4 @@
-# bare HTTP server, temporary
+# HTTP-only server
 server {
     listen      80;
     listen      [::]:80;
@@ -20,6 +20,10 @@ server {
             alias {{ app_webroot_dir }}/static;
         }
     {% endif %}
+
+    location /goaccess {
+        alias {{ app_goaccess_dir }};
+    }
 
     # additional config
     include snippets/general.conf;
