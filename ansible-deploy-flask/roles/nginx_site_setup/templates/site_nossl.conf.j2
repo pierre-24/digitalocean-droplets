@@ -3,11 +3,19 @@ server {
     listen      80;
     listen      [::]:80;
     server_name {{ website_address }};
+
+    root {{ website_webroot }};
     
     location / {
         proxy_pass http://unix:{{ app_src_dir }}/{{ app_name }}.sock;
         include snippets/proxy.conf;
     }
+
+    {% if website_has_static %}
+        location /static {
+            alias {{ website_static_path }};
+        }
+    {% endif %}
 
     # additional config
     include snippets/general.conf;

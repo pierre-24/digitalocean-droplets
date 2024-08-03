@@ -23,5 +23,6 @@ website_address: test.pierrebeaujean.net
 website_use_ssl: yes
 website_has_static: yes
 website_static_path: "{{ app_src_dir }}/static"
+website_webroot: "{{ app_src_dir }}"
 certbot_get_certificate: no
 certbot_account_email: pierreb24@gmail.com
