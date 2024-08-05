@@ -1,0 +1,5 @@
+[main]
+ubuntu-pbj.net ansible_host=digi.pbj
+
+[amn]
+ubuntu-amn.be ansible_host=digi.amn

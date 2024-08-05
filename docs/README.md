@@ -8,4 +8,5 @@ I set up a firewall at <https://cloud.digitalocean.com/networking/firewalls>, wi
 
 # Ansible playbooks
 
++ [general setup](../ansible-general-setup).
 + [flask app playbooks](../ansible-deploy-flask/).

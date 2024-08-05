@@ -1,6 +1,6 @@
 ---
 - name: Create a test site
-  hosts: all
+  hosts: main
   roles:
    - app_clone_setup_update
    # extra setup should go there
