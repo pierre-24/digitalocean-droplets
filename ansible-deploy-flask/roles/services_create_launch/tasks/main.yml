@@ -9,7 +9,7 @@
     group: root
     mode: 0644
 
-- name: enable and start service
+- name: enable and start gunicorn service
   become: yes
   systemd:
     name: '{{ gunicorn_service_name }}'
@@ -32,12 +32,14 @@
     owner: root
     group: root
     mode: 0644
+  when: goaccess_enable
 
-- name: enable and start service
+- name: enable and start goaccess service
   become: yes
   systemd:
     name: '{{ goaccess_service_name }}'
     enabled: yes
     state: restarted
     daemon_reload: yes
+  when: goaccess_enable
 

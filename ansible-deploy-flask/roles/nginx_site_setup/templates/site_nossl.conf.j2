@@ -21,9 +21,23 @@ server {
         }
     {% endif %}
 
-    location /goaccess {
-        alias {{ app_goaccess_dir }};
-    }
+    {% if goaccess_enable %}
+        # goaccess
+        location /goaccess/ws {
+            proxy_pass http://localhost:{{ goaccess_port }};
+            include snippets/proxy.conf;
+
+            auth_basic "Restricted Content";
+            auth_basic_user_file {{ app_webroot_dir }}/goaccess/.htpasswd;
+        }
+
+        location /goaccess {
+            alias {{ app_webroot_dir }}/goaccess;
+
+            auth_basic "Restricted Content";
+            auth_basic_user_file {{ app_webroot_dir }}/goaccess/.htpasswd;
+        }
+    {% endif %}
 
     # additional config
     include snippets/general.conf;

@@ -1,0 +1,28 @@
+---
+- name: request certificate through certbot
+  become: yes
+  command: certbot certonly --nginx -d {{ website_address }} --email {{ certbot_account_email }} -n --agree-tos  --force-renewal
+  when: certbot_get_certificate
+
+- name: create proper site conf file (with SSL)
+  become: yes
+  template:
+    src: templates/site_ssl.conf.j2
+    dest: /etc/nginx/sites-available/{{ website_address }}.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: website_use_ssl
+  register: nginx_conf_has_changed
+
+- name: restart nginx
+  become: yes
+  service:
+    name: 'nginx'
+    state: 'restarted'
+  when: nginx_conf_has_changed.changed or certbot_get_certificate
+
+- name: check HTTPS is working
+  command: curl -IL "https://{{ website_address }}"
+  register: result_curl
+  failed_when: '"200" not in result_curl.stdout'

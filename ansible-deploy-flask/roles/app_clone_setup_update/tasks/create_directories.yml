@@ -1,0 +1,35 @@
+---
+- name: create log directory
+  become: yes
+  file:
+    path: "{{ app_logs_dir }}"
+    group: 'www-data'
+    owner: 'www-data'
+    state: directory
+
+- name: create webroot
+  become: yes
+  file:
+    path: "{{ app_webroot_dir }}"
+    state: directory
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+
+- name: link static in webroot
+  become: yes
+  file:
+    src: "{{ website_static_path }}"
+    dest: "{{ app_webroot_dir }}/static"
+    state: link
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+  when: website_has_static
+
+- name: create goaccess directory
+  become: yes
+  file:
+    path: "{{ app_webroot_dir }}/goaccess"
+    state: directory
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+  when: goaccess_enable

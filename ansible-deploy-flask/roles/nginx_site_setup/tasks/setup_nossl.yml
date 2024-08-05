@@ -1,0 +1,31 @@
+---
+- name: create site conf file (without SSL)
+  become: yes
+  template:
+    src: templates/site_nossl.conf.j2
+    dest: /etc/nginx/sites-available/{{ website_address }}.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: not website_use_ssl or certbot_get_certificate
+  register: nginx_conf_has_changed
+
+- name: enable website
+  become: yes
+  file:
+    src: /etc/nginx/sites-available/{{ website_address }}.conf
+    dest: /etc/nginx/sites-enabled/{{ website_address }}.conf
+    state: link
+
+- name: restart nginx
+  become: yes
+  service:
+    name: 'nginx'
+    state: 'restarted'
+  when: nginx_conf_has_changed.changed
+
+- name: check address is working
+  command: curl -IL "http://{{ website_address }}"
+  register: result_curl
+  failed_when: '"200" not in result_curl.stdout'
+  when: not website_use_ssl or certbot_get_certificate

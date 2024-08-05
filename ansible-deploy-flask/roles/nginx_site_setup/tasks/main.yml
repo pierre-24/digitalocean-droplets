@@ -1,75 +1,11 @@
 ---
+- include_tasks: setup_nossl.yml
 
-- name: create log directory
-  become: yes
-  file:
-    path: "{{ app_logs_dir }}"
-    group: 'root'
-    owner: 'root'
-    state: directory
-
-- name: setup logrotate
-  become: yes
-  template:
-      src: templates/logrotate.j2
-      dest: /etc/logrotate.d/nginx.{{ app_name }}
-
-- name: create site conf file (without SSL)
-  become: yes
-  template:
-    src: templates/site_nossl.conf.j2
-    dest: /etc/nginx/sites-available/{{ website_address }}.conf
-    owner: root
-    group: root
-    mode: 0644
-  when: not website_use_ssl or certbot_get_certificate
-  register: nginx_conf_has_changed
-    
-- name: enable website
-  become: yes
-  file:
-    src: /etc/nginx/sites-available/{{ website_address }}.conf
-    dest: /etc/nginx/sites-enabled/{{ website_address }}.conf
-    state: link
-
-- name: restart nginx
-  become: yes
-  service:
-    name: 'nginx'
-    state: 'restarted'
-  when: nginx_conf_has_changed.changed
-
-- name: check address is working
-  command: curl -IL "http://{{ website_address }}"
-  register: result_curl
-  failed_when: '"200" not in result_curl.stdout'
-  when: not website_use_ssl or certbot_get_certificate
-
-- name: request certificate through certbot
-  become: yes
-  command: certbot certonly --nginx -d {{ website_address }} --email {{ certbot_account_email }} -n --agree-tos  --force-renewal
-  when: certbot_get_certificate and website_use_ssl
-
-- name: create proper site conf file (with SSL)
-  become: yes
-  template:
-    src: templates/site_ssl.conf.j2
-    dest: /etc/nginx/sites-available/{{ website_address }}.conf
-    owner: root
-    group: root
-    mode: 0644
+- include_tasks: setup_ssl.yml
   when: website_use_ssl
-  register: nginx_conf_has_changed
 
-- name: restart nginx
-  become: yes
-  service:
-    name: 'nginx'
-    state: 'restarted'
-  when: website_use_ssl and nginx_conf_has_changed.changed
+- include_tasks: setup_logrotate.yml
+  when: logrotate_enable
 
-- name: check HTTPS is working
-  command: curl -IL "https://{{ website_address }}"
-  register: result_curl
-  failed_when: '"200" not in result_curl.stdout'
-  when: website_use_ssl
+- include_tasks: setup_goaccess.yml
+  when: goaccess_enable
