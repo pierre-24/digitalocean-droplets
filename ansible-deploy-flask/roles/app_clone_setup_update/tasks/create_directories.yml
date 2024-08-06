@@ -23,6 +23,8 @@
     state: link
     owner: "{{ uid }}"
     group: "{{ gid }}"
+    # might be created latter, so force creation
+    force: yes
   when: website_has_static
 
 - name: create goaccess directory

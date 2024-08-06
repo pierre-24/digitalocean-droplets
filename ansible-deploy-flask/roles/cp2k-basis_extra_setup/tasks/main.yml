@@ -1,0 +1,38 @@
+---
+- name: install front packages
+  become: yes
+  become_user: "{{ uid }}"
+  community.general.make:
+    chdir: "{{ app_src_dir }}"
+    target: install-front
+
+- name: make front
+  become: yes
+  become_user: "{{ uid }}"
+  community.general.make:
+    chdir: "{{ app_src_dir }}"
+    target: front
+
+- name: make instance directory
+  become: yes
+  file:
+    path: "{{ app_src_dir }}/instance"
+    state: directory
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+
+- name: download library
+  become: yes
+  get_url:
+    url: https://github.com/{{ github_repo }}/releases/download/{{ git_branch }}/library_{{ git_branch }}.h5
+    dest: "{{ app_src_dir }}/instance/library.h5"
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+
+- name: create settings.py
+  become: yes
+  template:
+    src: templates/settings.py.j2
+    dest: "{{ app_src_dir }}/instance/settings.py"
+    owner: "{{ uid }}"
+    group: "{{ gid }}"

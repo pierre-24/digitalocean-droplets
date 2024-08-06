@@ -7,7 +7,7 @@
     owner: root
     group: root
     mode: 0644
-  when: not website_use_ssl or certbot_get_certificate
+  when: not website_use_ssl or certbot_request_certificate
   register: nginx_conf_has_changed
 
 - name: enable website
@@ -28,4 +28,4 @@
   command: curl -IL "http://{{ website_address }}"
   register: result_curl
   failed_when: '"200" not in result_curl.stdout'
-  when: not website_use_ssl or certbot_get_certificate
+  when: not website_use_ssl or certbot_request_certificate

@@ -1,0 +1,20 @@
+---
+# deploy https://github.com/pierre-24/cp2k-basis
+
+- name: Deploy cp2k-basis
+  hosts: main
+  vars:
+    github_repo: pierre-24/cp2k-basis
+    git_branch: v0.5.2
+    app_name: cp2k_basis
+    app_package: cp2k_basis_webservice
+    app_callable: create_app()
+    goaccess_port: 7201
+    website_address: cp2k-basis.pierrebeaujean.net
+    website_use_ssl: yes
+    website_static_path: "{{ app_src_dir }}/cp2k_basis_webservice/static"
+  roles:
+   - app_clone_setup_update
+   - cp2k-basis_extra_setup
+   - services_create_launch
+   - nginx_site_setup

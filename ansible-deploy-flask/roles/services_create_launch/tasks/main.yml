@@ -20,7 +20,7 @@
 - name: check socket
   become: yes
   become_user: "{{ uid }}"
-  command: curl -IL --unix-socket {{ app_src_dir }}/{{ app_name }}.sock  "http://localhost"
+  command: curl -IL --unix-socket {{ app_src_dir }}/{{ app_name }}.sock  "http://{{ website_server_name }}"
   register: result_curl
   failed_when: '"200" not in result_curl.stdout'
 

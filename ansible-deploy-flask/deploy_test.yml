@@ -1,6 +1,8 @@
 ---
 - name: Create a test site
   hosts: main
+  vars:
+    website_server_name: localhost
   roles:
    - app_clone_setup_update
    # extra setup should go there
