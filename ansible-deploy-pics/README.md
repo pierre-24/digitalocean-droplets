@@ -10,5 +10,5 @@ ansible-playbook -i hosts playbook.yml -J
 
 ## Note: roles
 
-- [`app_setup`](../ansible-general-setup/roles/apt_install): clone repository, create directory structure.
-- [`nginx_setup`](../ansible-general-setup/roles/nginx_setup): sets up NGINX (thanks to files provided by [nginxconfig.io](https://www.digitalocean.com/community/tools/nginx)).
+- [`gallery_init_setup`](./roles/gallery_init_setup): create directory structure, install package.
+- [`gallery_update`](./roles/gallery_update): upload images and make site.
