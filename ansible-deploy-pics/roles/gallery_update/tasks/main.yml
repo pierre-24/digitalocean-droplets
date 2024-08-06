@@ -1,0 +1,8 @@
+---
+
+- name: uplodad images
+  become: yes
+  become_user: "{{ uid }}"
+  copy:
+    src: /mnt/Pople/pierre/pics.pierrebeaujean.net/
+    dest: "{{ app_src_dir }}"

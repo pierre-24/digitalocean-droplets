@@ -1,0 +1,6 @@
+---
+- name: Create a test site
+  hosts: main
+  roles:
+   - gallery_init_setup
+   - gallery_update

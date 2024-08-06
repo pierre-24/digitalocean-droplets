@@ -1,10 +1,19 @@
 ---
+
 - name: create log directory
   become: yes
   file:
     path: "{{ app_logs_dir }}"
     group: 'www-data'
     owner: 'www-data'
+    state: directory
+
+- name: create src directory
+  become: yes
+  file:
+    path: "{{ app_src_dir }}"
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
     state: directory
 
 - name: create webroot directory
@@ -14,18 +23,6 @@
     state: directory
     owner: "{{ uid }}"
     group: "{{ gid }}"
-
-- name: link static in webroot
-  become: yes
-  file:
-    src: "{{ website_static_path }}"
-    dest: "{{ app_webroot_dir }}/static"
-    state: link
-    owner: "{{ uid }}"
-    group: "{{ gid }}"
-    # might be created latter, so force creation
-    force: yes
-  when: website_has_static
 
 - name: create goaccess directory
   become: yes

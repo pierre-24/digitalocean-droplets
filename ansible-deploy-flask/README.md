@@ -14,6 +14,12 @@ Variables are defined [here](group_vars/all.yml) and should be changed to deploy
 
 ## Note: roles
 
+Common roles:
+
 - [`app_clone_setup_update`](./roles/app_clone_setup_update): create the directory structure, clone app (or pull the latest version), install requirements (or update them).
 - [`service_create_launch`](./roles/services_create_launch): create the services for the app, and for [goaccess](https://goaccess.io/).
 - [`nginx_site_setup`](./roles/nginx_site_setup): set up the NGINX to serve the app.
+
+Extras:
+
++ [`cp2k-basis_extra_setup`](./roles/cp2k-basis_extra_setup): role for <https://github.com/pierre-24/cp2k-basis>.

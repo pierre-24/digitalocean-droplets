@@ -1,0 +1,39 @@
+---
+
+- name: check if app directory exists
+  stat:
+    path: "{{ app_dir }}"
+  register: app_dir_exists
+
+- name: Add user
+  become: yes
+  user:
+    name: "{{ uid }}"
+    group: "{{ gid }}"
+    comment: app user for {{ app_name }}
+    shell: /bin/bash
+    password: '!'
+    home: "{{ app_dir }}"
+  when: not app_dir_exists.stat.exists
+
+- name: create app directory
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+  when: not app_dir_exists.stat.exists
+
+- name: install requirements
+  become: yes
+  become_user: "{{ uid }}"
+  pip:
+    name:
+      - git+{{ git_repo }}
+    virtualenv: "{{ app_venv_dir }}"
+    virtualenv_command: "python3 -m venv"
+    chdir: "{{ app_src_dir }}"
+
+- include_tasks: create_directories.yml
+
+- include_tasks: gallery_init.yml

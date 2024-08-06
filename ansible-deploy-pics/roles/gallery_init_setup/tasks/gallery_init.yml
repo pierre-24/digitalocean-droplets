@@ -1,0 +1,12 @@
+- name: check if db exists
+  stat:
+    path: "{{ app_src_dir }}/.gallery/gallery.sqlite3"
+  register: db_exists
+
+- name: init
+  become: yes
+  become_user: "{{ uid }}"
+  command: "{{ app_venv_dir }}/bin/gallery_generator . -i"
+  args:
+    chdir: "{{ app_src_dir }}"
+  when: not db_exists.stat.exists

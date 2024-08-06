@@ -1,0 +1,31 @@
+---
+base_dir: /opt/apps
+app_dir: "{{ base_dir }}/{{ app_name }}"
+# git
+github_repo: pierre-24/pics.pierrebeaujean.net.git
+git_repo: https://github.com/{{ github_repo }}
+git_branch: master
+# app
+app_name: pics
+app_src_dir: "{{ app_dir }}/src"
+app_venv_dir: "{{ app_dir }}/venv"
+app_logs_dir: "{{ app_dir }}/logs"
+app_webroot_dir: "{{ app_dir }}/webroot"
+# user
+uid: "{{ app_name }}"
+gid: www-data
+# logrotate
+logrotate_enable: yes
+# goaccess
+goaccess_enable: yes
+goaccess_service_name: goaccess.{{ app_name }}
+goaccess_port: 7202
+goaccess_htpasswd_login: pierre
+# openssl passwd xxxx
+goaccess_htpasswd_encrypted_password: '$1$1fPyh9c9$8.JlzIiJ.5ljKZJxzLon8/'
+# website
+website_address: pics.pierrebeaujean.net
+website_server_name: "{{ website_address }}"
+website_use_ssl: yes
+certbot_request_certificate: no
+certbot_account_email: pierreb24@gmail.com
