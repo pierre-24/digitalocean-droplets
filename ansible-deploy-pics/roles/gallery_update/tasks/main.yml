@@ -1,8 +1,30 @@
 ---
 
-- name: uplodad images
+- name: set permissions to src directory
   become: yes
-  become_user: "{{ uid }}"
-  copy:
+  file:
+    path: "{{ app_src_dir }}"
+    owner: "{{ ansible_user_id }}"
+    state: directory
+    recurse: yes
+
+- name: synchronize images
+  ansible.posix.synchronize:
     src: /mnt/Pople/pierre/pics.pierrebeaujean.net/
     dest: "{{ app_src_dir }}"
+
+- name: reset permissions to src directory
+  become: yes
+  file:
+    path: "{{ app_src_dir }}"
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+    state: directory
+    recurse: yes
+
+- name: crawl & update
+  become: yes
+  become_user: "{{ uid }}"
+  command: "{{ app_venv_dir }}/bin/gallery_generator . -c -u {{  app_webroot_dir }}"
+  args:
+    chdir: "{{ app_src_dir }}"

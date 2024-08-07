@@ -1,0 +1,11 @@
+---
+- include_tasks: setup_nossl.yml
+
+- include_tasks: setup_logrotate.yml
+  when: logrotate_enable
+
+- include_tasks: setup_goaccess.yml
+  when: goaccess_enable
+
+- include_tasks: setup_ssl.yml
+  when: website_use_ssl

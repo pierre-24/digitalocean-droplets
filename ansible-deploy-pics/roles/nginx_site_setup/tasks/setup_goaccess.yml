@@ -1,0 +1,25 @@
+---
+- name: create goaccess service file
+  become: yes
+  template:
+    src: templates/goaccess.service.j2
+    dest: /etc/systemd/system/{{ goaccess_service_name }}.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: enable and start goaccess service
+  become: yes
+  systemd:
+    name: '{{ goaccess_service_name }}'
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+
+- name: create .htpasswd for goacess
+  become: yes
+  template:
+    src: templates/htpasswd.j2
+    dest: "{{ app_webroot_dir }}/goaccess/.htpasswd"
+    owner: www-data
+    group: www-data

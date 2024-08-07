@@ -1,6 +1,9 @@
 ---
 - name: Create a test site
   hosts: main
+  vars:
+    certbot_request_certificate: no
   roles:
    - gallery_init_setup
    - gallery_update
+   - nginx_site_setup

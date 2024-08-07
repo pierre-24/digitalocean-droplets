@@ -18,7 +18,7 @@ Common roles:
 
 - [`app_clone_setup_update`](./roles/app_clone_setup_update): create the directory structure, clone app (or pull the latest version), install requirements (or update them).
 - [`service_create_launch`](./roles/services_create_launch): create the services for the app, and for [goaccess](https://goaccess.io/).
-- [`nginx_site_setup`](./roles/nginx_site_setup): set up the NGINX to serve the app.
+- [`nginx_site_setup`](./roles/nginx_site_setup): set up NGINX to serve the app.
 
 Extras:
 

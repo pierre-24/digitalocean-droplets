@@ -1,0 +1,51 @@
+server {
+    listen                  443 ssl http2;
+    listen                  [::]:443 ssl http2;
+    server_name             {{ website_address }};
+
+    # SSL
+    ssl_certificate         /etc/letsencrypt/live/{{ website_address }}/fullchain.pem;
+    ssl_certificate_key     /etc/letsencrypt/live/{{ website_address }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ website_address }}/chain.pem;
+
+    # security
+    include                 snippets/security.conf;
+
+    # logging
+    access_log              {{ app_logs_dir }}/nginx-access.log combined buffer=512k flush=1m;
+    error_log               {{ app_logs_dir }}/nginx-error.log warn;
+
+    root {{ app_webroot_dir }};
+
+    {% if goaccess_enable %}
+        # goaccess
+        location /goaccess/ws {
+            proxy_pass http://localhost:{{ goaccess_port }};
+            include snippets/proxy.conf;
+
+            auth_basic "Restricted Content";
+            auth_basic_user_file {{ app_webroot_dir }}/goaccess/.htpasswd;
+        }
+
+        location /goaccess {
+            alias {{ app_webroot_dir }}/goaccess;
+
+            auth_basic "Restricted Content";
+            auth_basic_user_file {{ app_webroot_dir }}/goaccess/.htpasswd;
+        }
+    {% endif %}
+
+    # additional config
+    include snippets/general.conf;
+}
+
+# HTTP redirect
+server {
+    listen      80;
+    listen      [::]:80;
+    server_name {{ website_address }};
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
