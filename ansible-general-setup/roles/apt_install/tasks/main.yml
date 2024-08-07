@@ -17,3 +17,8 @@
     name: python3,python3-venv,git,nginx,certbot,acl,python3-certbot-nginx,goaccess,nodejs,npm
     state: present
     update_cache: yes
+
+- name: remove unattended-upgrades
+  ansible.builtin.apt:
+    pkg: unattended-upgrades
+    state: absent
