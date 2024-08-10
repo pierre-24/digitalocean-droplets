@@ -10,6 +10,13 @@
   when: not website_use_ssl or certbot_request_certificate
   register: nginx_conf_has_changed
 
+- name: copy robot.txt
+  become: yes
+  become_user: "{{ uid }}"
+  template:
+    src: templates/robot.txt.j2
+    dest: "{{ app_webroot_dir }}/robot.txt"
+
 - name: enable website
   become: yes
   file:
