@@ -1,7 +1,7 @@
 - name: pull latest git update
   become: yes
   become_user: "{{ uid }}"
-  command: git fetch origin
+  command: git fetch origin tag {{ git_branch }}
   args:
     chdir: "{{ app_src_dir }}"
 
