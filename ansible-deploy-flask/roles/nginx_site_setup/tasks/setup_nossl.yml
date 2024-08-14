@@ -10,12 +10,12 @@
   when: not website_use_ssl or certbot_request_certificate
   register: nginx_conf_has_changed
 
-- name: copy robot.txt
+- name: copy robots.txt
   become: yes
   become_user: "{{ uid }}"
   template:
-    src: templates/robot.txt.j2
-    dest: "{{ app_webroot_dir }}/robot.txt"
+    src: templates/robots.txt.j2
+    dest: "{{ app_webroot_dir }}/robots.txt"
 
 - name: enable website
   become: yes
@@ -34,5 +34,5 @@
 - name: check address is working
   command: curl -IL "http://{{ website_address }}"
   register: result_curl
-  failed_when: '"200" not in result_curl.stdout'
+  failed_when: '"HTTP/2 200" not in result_curl.stdout'
   when: not website_use_ssl or certbot_request_certificate

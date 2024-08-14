@@ -1,0 +1,15 @@
+[Unit]
+Description=Mail bot of AMN
+After=network.target
+
+[Service]
+User={{ uid }}
+Group={{ gid }}
+WorkingDirectory={{ app_src_dir }}
+Environment="PATH={{ app_venv_dir }}/bin"
+ExecStart={{ app_venv_dir }}/bin/flask --app {{ app_package }} bot
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target

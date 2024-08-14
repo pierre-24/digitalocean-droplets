@@ -23,3 +23,4 @@ Common roles:
 Extras:
 
 + [`cp2k-basis_extra_setup`](./roles/cp2k-basis_extra_setup): role for <https://github.com/pierre-24/cp2k-basis>.
++ [`amn_extra_setup`](./roles/cp2k-basis_extra_setup): role for <https://github.com/pierre-24/AM-Nihoul-website>.

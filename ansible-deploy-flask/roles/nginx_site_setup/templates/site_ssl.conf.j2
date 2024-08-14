@@ -18,6 +18,7 @@ server {
     root {{ app_webroot_dir }};
 
     location / {
+        client_max_body_size {{ website_max_body_size }};
         proxy_pass http://unix:{{ app_src_dir }}/{{ app_name }}.sock;
         include snippets/proxy.conf;
     }

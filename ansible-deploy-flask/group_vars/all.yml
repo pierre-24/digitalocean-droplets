@@ -37,3 +37,4 @@ website_webroot: "{{ app_src_dir }}"
 website_use_ssl: yes
 certbot_request_certificate: no
 certbot_account_email: pierreb24@gmail.com
+website_max_body_size: 1M

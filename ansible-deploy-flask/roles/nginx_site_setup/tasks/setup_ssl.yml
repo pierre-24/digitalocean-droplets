@@ -24,4 +24,4 @@
 - name: check HTTPS is working
   command: curl -IL "https://{{ website_address }}"
   register: result_curl
-  failed_when: '"200" not in result_curl.stdout'
+  failed_when: '"HTTP/2 200" not in result_curl.stdout'

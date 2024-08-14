@@ -24,3 +24,11 @@
     regexp: ^PasswordAuthentication
     line: PasswordAuthentication no
   notify: restart sshd
+
+- name: create app directory
+  become: yes
+  file:
+    path: /opt/apps
+    state: directory
+    owner: "pierre"
+    group: "pierre"

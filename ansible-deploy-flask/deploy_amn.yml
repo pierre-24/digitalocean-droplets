@@ -1,0 +1,23 @@
+---
+# deploy https://github.com/pierre-24/AM-Nihoul-website
+
+- name: Deploy AMN
+  hosts: amn
+  vars:
+    github_repo: pierre-24/AM-Nihoul-website
+    git_branch: v0.8.1
+    app_name: amn
+    app_package: AM_Nihoul_website
+    app_callable: create_app()
+    goaccess_port: 7200
+    website_address: annemarienihoul.be
+    website_use_ssl: yes
+    website_static_path: "{{ app_src_dir }}/AM_Nihoul_website/static"
+    app_data_dir: "{{ app_dir }}/data"
+    amn_bot_service_name: amn-bot
+    website_max_body_size: 15M
+  roles:
+   - app_clone_setup_update
+   - amn_extra_setup
+   - services_create_launch
+   - nginx_site_setup

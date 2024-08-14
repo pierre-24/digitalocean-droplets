@@ -6,7 +6,20 @@ I used <https://docs.digitalocean.com/products/droplets/getting-started/recommen
 
 I set up a firewall at <https://cloud.digitalocean.com/networking/firewalls>, with extra HTTP and HTTPS inbound rules.
 
-# Ansible playbooks
 
-+ [general setup](../ansible-general-setup).
-+ [flask app playbooks](../ansible-deploy-flask/).
+# Goacess ports
+
+Server `main`
+
+| Service      | Port | Source                                                                                      |
+|--------------|------|---------------------------------------------------------------------------------------------|
+| `cp2k_basis` | 7201 | [ansible-deploy-flask/deploy_cp2k_basis.yml](../ansible-deploy-flask/deploy_cp2k_basis.yml) |
+| `pics`       | 7202 | [ansible-deploy-pics/playbook.yml](../ansible-deploy-pics/playbook.yml)                     |
+ 
+
+Server `amn`
+
+| Service | Port | Source                                                   |
+|---------|------|----------------------------------------------------------|
+| `amn`   | 7200 | [ansible-deploy-flask/deploy_amn.yml](../ansible-deploy-flask/deploy_amn.yml) |
+ 

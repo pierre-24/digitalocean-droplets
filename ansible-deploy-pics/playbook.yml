@@ -1,8 +1,9 @@
 ---
-- name: Create a test site
+- name: Create pics.pierrebeaujean.net
   hosts: main
   vars:
     certbot_request_certificate: no
+    goaccess_port: 7202
   roles:
    - gallery_init_setup
    - gallery_update

@@ -1,0 +1,26 @@
+---
+
+- name: upgrade db (if any)
+  become: yes
+  become_user: "{{ uid }}"
+  command: "{{ app_venv_dir }}/bin/flask --app {{ app_package }} db upgrade"
+  args:
+    chdir: "{{ app_src_dir }}"
+
+- name: make front
+  become: yes
+  become_user: "{{ uid }}"
+  community.general.make:
+    chdir: "{{ app_src_dir }}"
+    target: front
+
+- name: copy gmail files
+  become: yes
+  copy:
+    src: files/{{ item }}
+    dest: "{{ app_src_dir }}"
+    owner: "{{ uid }}"
+    group: "{{ gid }}"
+  loop:
+    - client_secret.json
+    - gmail_token.json

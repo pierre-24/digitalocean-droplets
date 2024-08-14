@@ -1,0 +1,18 @@
+---
+
+- name: create amn-bot service file
+  become: yes
+  template:
+    src: templates/amn-bot.service.j2
+    dest: /etc/systemd/system/{{ amn_bot_service_name }}.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: enable and start amn-bot service
+  become: yes
+  systemd:
+    name: '{{ amn_bot_service_name }}'
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
