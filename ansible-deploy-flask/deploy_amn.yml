@@ -5,7 +5,7 @@
   hosts: amn
   vars:
     github_repo: pierre-24/AM-Nihoul-website
-    git_branch: v0.8.2
+    git_branch: v0.8.3
     app_name: amn
     app_package: AM_Nihoul_website
     app_callable: create_app()
